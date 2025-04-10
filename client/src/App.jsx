@@ -4,6 +4,7 @@ import { TaskFormPage } from "./pages/TaskFormPage";
 import { Navigation } from "./components/Navigation";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,10 +20,10 @@ function App() {
           <Route path="/" element={<Navigate to="/tasks" />} />
           <Route
             path="/tasks"
-            element={<TasksPage searchTerm={searchTerm}/>}
-            
+            element={<TasksPage searchTerm={searchTerm} />}
           />
           <Route path="/tasks-create" element={<TaskFormPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/tasks/:id" element={<TaskFormPage />} />
         </Routes>
         <Toaster position="top-right" />

@@ -22,6 +22,9 @@ export function Navigation({ searchTerm, onSearch }) {
       <button className="bg-indigo-500 px-3 py-3 rounded-lg">
         <Link to="/tasks-create">Create Task</Link>
       </button>
+      <button className="bg-indigo-500 px-3 py-3 rounded-lg">
+        <Link to="/login">Log In</Link>
+      </button>
     </div>
   );
 }
