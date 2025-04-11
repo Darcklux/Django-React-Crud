@@ -16,8 +16,10 @@ export function TaskFormPage() {
   const params = useParams();
 
   const onSubmit = handleSubmit(async (data) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (!accessToken) return;
     if (params.id) {
-      await updateTask(params.id, data);
+      await updateTask(params.id, data, accessToken);
       toast.success("Task updated successfully!", {
         style: {
           position: "bottom-right",
@@ -26,7 +28,7 @@ export function TaskFormPage() {
         },
       });
     } else {
-      await createTask(data);
+      await createTask(data, accessToken);
       toast.success("Task created successfully!", {
         style: {
           position: "bottom-right",
@@ -40,13 +42,17 @@ export function TaskFormPage() {
 
   useEffect(() => {
     const loadTask = async () => {
-      if (params.id) {
-        const res = await getTask(params.id);
-        console.log(res);
-        setValue("title", res.data.title);
-        setValue("description", res.data.description);
-        setValue("done", res.data.done);
-      }
+      try {
+        if (params.id) {
+          const accessToken = localStorage.getItem("accessToken");
+          if (!accessToken) return;
+          const res = await getTask(params.id, accessToken);
+          console.log(res,"TAREA CARGADA");
+          setValue("title", res.title);
+          setValue("description", res.description);
+          setValue("done", res.done);
+        }
+      } catch (error) {}
     };
     loadTask();
   }, []);
@@ -92,7 +98,9 @@ export function TaskFormPage() {
                 "Are you sure you want to delete this task?"
               );
               if (response) {
-                await deleteTask(params.id);
+                const accessToken = localStorage.getItem("accessToken");
+                if (!accessToken) return;
+                await deleteTask(params.id, accessToken);
                 toast.success("Task deleted successfully!", {
                   style: {
                     position: "bottom-right",

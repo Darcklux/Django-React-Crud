@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const tasksApi = axios.create({
-    baseURL: "http://localhost:8000/tasks/api/v1/tasks/",
+    baseURL: "http://localhost:8000/tasks/api/v1/tasks",
 });
 
 export const getAllTasks = async (accessToken) => {
@@ -28,7 +28,7 @@ export const getTask = async (id, accessToken) => {
         return response.data;
     } catch (error) {
         console.log("Error fetching task:", error);
-        th
+        throw error;
     }
 }
 
@@ -69,6 +69,7 @@ export const updateTask = async (id, task, accessToken) => {
                 Authorization: `Bearer ${accessToken}`,
             }
         })
+        return response.data;
     } catch (error) {
         console.log("Error updating task:", error);
         throw error;

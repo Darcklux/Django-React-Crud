@@ -8,25 +8,32 @@ export function TasksList({ searchTerm }) {
 
   useEffect(() => {
     async function loadTasks() {
-      const res = await getAllTasks();
-      setTasks(res.data);
-      setFilteredTasks(res.data);
+      const accesToken = localStorage.getItem("accessToken");
+      if (!accesToken) return;
+      try {
+        const res = await getAllTasks(accesToken);
+        setTasks(res);
+        setFilteredTasks(res);
+      } catch (error) {
+        console.log("Error fetching tasks:", error);
+      }
     }
     loadTasks();
   }, []);
 
   useEffect(() => {
-    const filtered = tasks.filter((task) =>
-      task.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredTasks(filtered);
+    if (Array.isArray(tasks)) {
+      const filtered = tasks.filter((task) =>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredTasks(filtered);
+    }
   }, [searchTerm, tasks]);
 
   return (
     <div className="grid grid-cols-3 gap-3">
-      {filteredTasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
+      {Array.isArray(filteredTasks) &&
+        filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)}
     </div>
   );
 }
