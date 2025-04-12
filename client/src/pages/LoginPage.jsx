@@ -1,59 +1,53 @@
-import React, { useState } from "react";
-import { loginUser, getCurrentUser } from "../api/auth.api";
+import React, { useState } from 'react';
+import { loginUser, getCurrentUser } from '../api/auth.api';
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = handleSubmit(async (data) => {
+    console.log('Datos del formulario:', data);
     try {
-      const { access } = await loginUser(username, password);
-      console.log("Token de acceso recibido:", access);
+      const { access } = await loginUser(data.username, data.password);
+      console.log('Token de acceso recibido:', access);
 
-      localStorage.setItem("accessToken", access);
+      localStorage.setItem('accessToken', access);
 
-      const currentUser = await getCurrentUser(access);
-      console.log("Usuario actual:", currentUser);
 
-      setUser(currentUser);
+      navigate('/tasks');
     } catch (err) {
-      console.error("Error durante el login o al obtener usuario:", err);
-      setError("Error durante el login");
+      console.error('Error durante el login o al obtener usuario:', err);
     }
-  };
+  });
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
+    <div className="max-w-sm mx-auto pt-15">
+      <form onSubmit={onSubmit}>
+        <input
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-5"
+          type="text"
+          placeholder="Nombre de usuario"
+          {...register('username', { required: true })}
+        />
+        {errors.username && <span>Este campo es requerido</span>}
+        <input
+          className="bg-zinc-700 p-3 rounded-lg block w-full mb-5"
+          type="password"
+          placeholder="Contraseña"
+          {...register('password', { required: true })}
+        />
+        {errors.password && <span>Este campo es requerido</span>}
+        <button className="bg-indigo-500 p-3 rounded-lg block w-full mt-3">
+          Iniciar sesión
+        </button>
       </form>
-      {error && <p>{error}</p>}
-      {user && (
-        <div>
-          <h2>Welcome, {user.username}!</h2>
-          <p>Email: {user.mail}</p>
-        </div>
-      )}
     </div>
   );
 };

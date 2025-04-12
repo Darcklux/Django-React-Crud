@@ -31,7 +31,7 @@ export function TasksList({ searchTerm }) {
   }, [searchTerm, tasks]);
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-3 mt-10">
       {Array.isArray(filteredTasks) &&
         filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)}
     </div>

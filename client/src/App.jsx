@@ -23,8 +23,8 @@ function App() {
             element={<TasksPage searchTerm={searchTerm} />}
           />
           <Route path="/tasks-create" element={<TaskFormPage />} />
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/tasks/:id" element={<TaskFormPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
         <Toaster position="top-right" />
       </div>

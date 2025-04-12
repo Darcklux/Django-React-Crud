@@ -16,6 +16,8 @@ export function TaskFormPage() {
   const params = useParams();
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
+    
     const accessToken = localStorage.getItem("accessToken");
     if (!accessToken) return;
     if (params.id) {
@@ -58,7 +60,7 @@ export function TaskFormPage() {
   }, []);
 
   return (
-    <div className="max-w-xl mx-auto">
+    <div className="max-w-xl mx-auto mt-10">
       <form onSubmit={onSubmit}>
         <input
           className="bg-zinc-700 p-3 rounded-lg block w-full mb-3"
