@@ -2,7 +2,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export function Navigation({ searchTerm, onSearch }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('accessToken'));
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    !!localStorage.getItem('accessToken')
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,9 +50,14 @@ export function Navigation({ searchTerm, onSearch }) {
             </button>
           </div>
         ) : (
-          <button className="bg-indigo-500 px-3 py-3 rounded-lg">
-            <Link to="/login">Log In</Link>
-          </button>
+          <div>
+            <button className="bg-indigo-500 px-3 py-3 rounded-lg">
+              <Link to="/login">Sign In</Link>
+            </button>
+            <button className="bg-indigo-500 px-3 py-3 ml-5 rounded-lg">
+              <Link to="/signup">Sign Up</Link>
+            </button>
+          </div>
         )}
       </div>
     </div>

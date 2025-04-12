@@ -5,6 +5,7 @@ import { Navigation } from "./components/Navigation";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
 import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,6 +26,7 @@ function App() {
           <Route path="/tasks-create" element={<TaskFormPage />} />
           <Route path="/tasks/:id" element={<TaskFormPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
         <Toaster position="top-right" />
       </div>
